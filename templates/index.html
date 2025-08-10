@@ -1,0 +1,107 @@
+<!-- templates/index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Memory Burn Rate Predictor</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        /* Full-screen animated background */
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(-45deg, #1f1c2c, #928dab, #1f1c2c, #928dab);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        h2 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2.5rem;
+            margin-bottom: 30px;
+            text-shadow: 0 0 10px #fff;
+        }
+
+        form {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+            width: 350px;
+            text-align: center;
+        }
+
+        input, select {
+            width: 90%;
+            padding: 10px;
+            margin: 10px 0;
+            border: none;
+            border-radius: 8px;
+            background: #fff;
+            font-size: 1rem;
+            color: #333;
+        }
+
+        button {
+            margin-top: 10px;
+            padding: 10px 20px;
+            font-size: 1rem;
+            background: #ff6f61;
+            border: none;
+            border-radius: 10px;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        button:hover {
+            background: #e94e3c;
+        }
+
+        h3 {
+            margin-top: 25px;
+            font-size: 1.4rem;
+            text-shadow: 0 0 5px #fff;
+        }
+    </style>
+</head>
+<body>
+    <h2>🧠 Memory Burn Rate Predictor</h2>
+
+    <form action="/predict" method="POST">
+        <label for="topic_code">Choose a Topic:</label><br>
+        <select name="topic_code" required>
+            {% for code, name in topics.items() %}
+                <option value="{{ code }}">{{ name }}</option>
+            {% endfor %}
+        </select><br>
+
+        <input type="number" name="study_times" placeholder="Study Times" required>
+        <input type="number" name="total_time" placeholder="Total Study Time (min)" required>
+        <input type="number" name="gap_days" placeholder="Gap Between Sessions" required>
+        <input type="number" name="confidence" placeholder="Confidence (1-10)" required>
+        <input type="number" name="quiz_score" placeholder="Quiz Score (out of 100)" required>
+        <input type="number" name="days_since_last" placeholder="Days Since Last Revision" required>
+        
+        <button type="submit">🚀 Predict Burn Rate</button>
+    </form>
+
+    {% if prediction %}
+        <h3>🔥 Estimated Burn Rate: {{ prediction }} days</h3>
+    {% endif %}
+</body>
+</html>
